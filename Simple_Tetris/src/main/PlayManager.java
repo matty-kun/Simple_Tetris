@@ -8,6 +8,7 @@ import java.awt.RenderingHints;
 
 import mino.Block;
 import mino.Mino;
+import mino.Mino_L1;
 
 public class PlayManager {
 	// Draws the Play Area
@@ -35,12 +36,16 @@ public class PlayManager {
 		top_y = 50;
 		bottom_y = top_y + HEIGHT;
 		
+		// Starting Coordinates
 		MINO_START_X = left_x + (WIDTH/2) - Block.SIZE;
 		MINO_START_Y = top_y + Block.SIZE;
 		
+		// Set the starting Mino
+		currentMino = new Mino_L1();
+		currentMino.setXY(MINO_START_X, MINO_START_Y);
 	}
 	public void update() {
-		
+		currentMino.update();
 	}
 	public void draw(Graphics2D g2) {
 		
@@ -58,5 +63,10 @@ public class PlayManager {
 		g2.setFont(new Font("Arial", Font.PLAIN, 30));	
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2.drawString("NEXT", x + 60, y + 60);
+		
+		// Draw the currentMino
+		if(currentMino != null) {
+			currentMino.draw(g2);
+		}
 	}
 }
