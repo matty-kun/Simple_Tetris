@@ -23,6 +23,7 @@ public class Game_Panel extends JPanel implements Runnable{
 		this.setBackground(Color.BLACK);
 		this.setLayout(null);
 		
+		// import PlayManager
 		pm = new PlayManager();
 	}
 	

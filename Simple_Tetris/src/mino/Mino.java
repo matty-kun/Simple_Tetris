@@ -3,10 +3,13 @@ package mino;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import main.PlayManager;
+
 // Super Class for all Tetrominoes (shapes)
 public class Mino {
 	public Block b[] = new Block[4]; // Holds every block, 4 is fixed because every tetromino has 4 blocks
 	public Block tempb[] = new Block[4]; // Temporary array for block rotations
+	int autoDropCounter = 0;
 	
 	public void create(Color c) {
 		// Each block initialized in the same color
@@ -21,8 +24,17 @@ public class Mino {
 	}
 	public void setXY(int x, int y) {} // Initial position of the blocks
 	public void updateXY(int direction) {} // Updated position of the blocks
-	public void update() { // In the game loop to handle the sate of the Tetromino
+	public void update() { // In the game loop to handle the state of the Tetromino
 		
+		autoDropCounter++; // the counter increases in every frame
+		if(autoDropCounter == PlayManager.dropInterval) {
+			// Mino goes down
+			b[0].y += Block.SIZE;
+			b[1].y += Block.SIZE;
+			b[2].y += Block.SIZE;
+			b[3].y += Block.SIZE;
+			autoDropCounter = 0; // resets
+		}
 	}
 	public void draw(Graphics2D g2) { // Rendering the Tetromino onto the game screen
 		

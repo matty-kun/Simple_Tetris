@@ -28,6 +28,9 @@ public class PlayManager {
 	final int MINO_START_X;
 	final int MINO_START_Y;
 	
+	// Others
+	public static int dropInterval = 60; // Mino drops for 60 frames
+	
 	public PlayManager() {
 		
 		// Main Play Area Frame
