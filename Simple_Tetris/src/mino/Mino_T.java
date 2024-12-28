@@ -43,12 +43,12 @@ public class Mino_T extends Mino{
 		
 		tempb[0].x = b[0].x;
 		tempb[0].y = b[0].y;
-		tempb[1].x = b[0].x + Block.SIZE;
-		tempb[1].y = b[0].y;
+		tempb[1].x = b[0].x;
+		tempb[1].y = b[0].y + Block.SIZE;
 		tempb[2].x = b[0].x;
 		tempb[2].y = b[0].y - Block.SIZE;
-		tempb[3].x = b[0].x;
-		tempb[3].y = b[0].y + Block.SIZE;
+		tempb[3].x = b[0].x - Block.SIZE;
+		tempb[3].y = b[0].y;
 		
 		updateXY(2);
 	}
@@ -78,8 +78,8 @@ public class Mino_T extends Mino{
 		tempb[1].y = b[0].y - Block.SIZE;
 		tempb[2].x = b[0].x;
 		tempb[2].y = b[0].y + Block.SIZE;
-		tempb[3].x = b[0].x;
-		tempb[3].y = b[0].y - Block.SIZE;
+		tempb[3].x = b[0].x + Block.SIZE;
+		tempb[3].y = b[0].y;
 		
 		updateXY(4);
 	}

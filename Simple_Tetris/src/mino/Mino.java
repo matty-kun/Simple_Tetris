@@ -13,6 +13,7 @@ public class Mino {
 	public Block tempb[] = new Block[4]; // Temporary array for block rotations
 	int autoDropCounter = 0;
 	public int direction = 1; // There are 4 directions (1/2/3/4)
+	boolean leftCollision, rightCollision, bottomCollision;
 	
 	public void create(Color c) {
 		// Each block initialized in the same color
@@ -28,20 +29,80 @@ public class Mino {
 	public void setXY(int x, int y) {} // Initial position of the blocks
 	public void updateXY(int direction) { // Updated position of the blocks
 		 
-		this.direction = direction;
-		b[0].x = tempb[0].x;
-		b[0].y = tempb[0].y;
-		b[1].x = tempb[1].x;
-		b[1].y = tempb[1].y;
-		b[2].x = tempb[2].x;
-		b[2].y = tempb[2].y;
-		b[3].x = tempb[3].x;
-		b[3].y = tempb[3].y;
+		checkRotationCollision();
+		
+		if(leftCollision == false && rightCollision == false && bottomCollision == false) {
+			
+			this.direction = direction;
+			b[0].x = tempb[0].x;
+			b[0].y = tempb[0].y;
+			b[1].x = tempb[1].x;
+			b[1].y = tempb[1].y;
+			b[2].x = tempb[2].x;
+			b[2].y = tempb[2].y;
+			b[3].x = tempb[3].x;
+			b[3].y = tempb[3].y;
+		}
 	} 
 	public void getDirection1() {}
 	public void getDirection2() {}
 	public void getDirection3() {}
 	public void getDirection4() {}
+	
+	public void checkMovementCollision() {
+		leftCollision = false;
+		rightCollision =  false;
+		bottomCollision = false;
+		
+		// Left wall
+		for(int i = 0; i < b.length; i++) {
+			if (b[i].x == PlayManager.left_x) {
+				leftCollision = true;
+			}
+		}
+		
+		//Right wall
+		for(int i = 0; i < b.length; i++) {
+			if (b[i].x + Block.SIZE == PlayManager.right_x) {
+				rightCollision = true;
+			}
+		}
+		
+		// Bottom wall
+		for(int i = 0; i < b.length; i++) {
+			if (b[i].y + Block.SIZE == PlayManager.bottom_y) {
+				bottomCollision = true;
+			}
+		}
+		
+	}
+	public void checkRotationCollision() {
+		leftCollision = false;
+		rightCollision =  false;
+		bottomCollision = false;
+		
+		// Left wall
+		for(int i = 0; i < b.length; i++) {
+			if (tempb[i].x < PlayManager.left_x) {
+				leftCollision = true;
+			}
+		}
+		
+		//Right wall
+		for(int i = 0; i < b.length; i++) {
+			if (tempb[i].x + Block.SIZE > PlayManager.right_x) {
+				rightCollision = true;
+			}
+		}
+		
+		// Bottom wall
+		for(int i = 0; i < b.length; i++) {
+			if (tempb[i].y + Block.SIZE > PlayManager.bottom_y) {
+				bottomCollision = true;
+			}
+		}
+	}
+	
 	public void update() { // In the game loop to handle the state of the Tetromino
 		
 		// Move the Mino
@@ -54,38 +115,51 @@ public class Mino {
 			}
 			KeyHandler.upPressed = false;
 		}
+		
+		checkMovementCollision();
+		
 		if(KeyHandler.downPressed) {
-			
-			b[0].y += Block.SIZE;
-			b[1].y += Block.SIZE;
-			b[2].y += Block.SIZE;
-			b[3].y += Block.SIZE;
-			
-			// When moved down, reset the autoDropCounter
-			autoDropCounter = 0;
+			// If the mino's bottom is not hitting, it can go down
+			if(bottomCollision == false) {
+				
+				b[0].y += Block.SIZE;
+				b[1].y += Block.SIZE;
+				b[2].y += Block.SIZE;
+				b[3].y += Block.SIZE;
+				
+				// When moved down, reset the autoDropCounter
+				autoDropCounter = 0;
+			}
 			
 			KeyHandler.downPressed = false;
 		}
 		if(KeyHandler.leftPressed) {
 			
-			b[0].x -= Block.SIZE;
-			b[1].x -= Block.SIZE;
-			b[2].x -= Block.SIZE;
-			b[3].x -= Block.SIZE;
-			
-			autoDropCounter = 0;
-			
+			if(leftCollision == false) {
+				
+				b[0].x -= Block.SIZE;
+				b[1].x -= Block.SIZE;
+				b[2].x -= Block.SIZE;
+				b[3].x -= Block.SIZE;
+				
+				autoDropCounter = 0;
+			}
+
 			KeyHandler.leftPressed = false;
 			
 		}
 		if(KeyHandler.rightPressed) {
 			
-			b[0].x += Block.SIZE;
-			b[1].x += Block.SIZE;
-			b[2].x += Block.SIZE;
-			b[3].x += Block.SIZE;
-			
-			autoDropCounter = 0;
+			if(rightCollision == false) {
+				
+				b[0].x += Block.SIZE;
+				b[1].x += Block.SIZE;
+				b[2].x += Block.SIZE;
+				b[3].x += Block.SIZE;
+				
+				autoDropCounter = 0;
+			}
+
 			KeyHandler.rightPressed = false;
 		}
 		
